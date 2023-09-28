@@ -84,11 +84,12 @@ def user_register():
         registration_result = db.register_user(username, password)
 
         if registration_result is None:
-            return redirect(url_for('user_sign_in'))  # Правильна назва функції
+            return redirect(url_for('user_sign_in'))  # Виправлена назва функції
         else:
             return registration_result  # Повертаємо повідомлення про помилку
 
     return render_template('register.html')
+
 
 
 @app.route('/user/sign_in', methods=['POST'])
