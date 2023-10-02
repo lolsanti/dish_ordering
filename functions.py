@@ -48,28 +48,31 @@ class LOGIN:
         self.cur = cur
         self.con = con
 
-    def register_user(self, username, password):
+    def register_user(self, email, password, telephone, telegram, role):
         try:
-            existing_user = self.cur.execute("SELECT * FROM USER WHERE username = ?", (username,))
+            # Перевірка наявності користувача з таким email
+            existing_user = self.cur.execute("SELECT * FROM USER WHERE email = ?", (email,))
             if existing_user.fetchone():
-                return "Користувач із таким іменем вже існує"
+                return "Користувач із таким email вже існує"
 
-            self.cur.execute("INSERT INTO USER (username, password) VALUES (?, ?)", (username, password))
+            # Додавання користувача до бази даних
+            self.cur.execute("INSERT INTO USER (email, password, telephone, telegram, role) VALUES (?, ?, ?, ?, ?)",
+                             (email, password, telephone, telegram, role))
             self.con.commit()
             return None  # Реєстрація успішна
 
         except sqlite3.Error as e:
             return str(e)  # Помилка бази даних
 
-    def login_user(self, username, password):
+    def login_user(self, email, password):
         try:
-            # Пошук користувача з вказаним іменем і паролем
-            user = self.cur.execute("SELECT * FROM User WHERE username = ? and password = ?", (username, password))
+            # Пошук користувача з вказаним email і паролем
+            user = self.cur.execute("SELECT * FROM User WHERE email = ? and password = ?", (email, password))
             user_data = user.fetchone()
 
             if user_data:
                 # Якщо користувач знайдений, створюємо сесію
-                session['username'] = user_data['username']
+                session['email'] = user_data['email']
                 return None  # Вхід успішний
 
             return "Невірне ім'я користувача або пароль"
@@ -80,7 +83,7 @@ class LOGIN:
     def logout_user(self):
         try:
             # Знищення сесії користувача
-            session.pop("username", None)  # Виправлено параметр "None"
+            session.pop("email", None)  # Виправлено параметр "None"
             return None  # Вихід успішний
         except Exception as e:
             return str(e)

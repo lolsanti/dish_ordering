@@ -1,5 +1,4 @@
 from flask import Flask
-from flask import request
 from flask import request, redirect, url_for, render_template
 
 from functions import SQLiteDB
@@ -7,6 +6,11 @@ from functions import LOGIN
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '134734'
+
+
+@app.route('/')
+def index():
+    return "Головна сторінка"
 
 
 @app.route('/admin', methods=['GET', 'PUT', 'DELETE'])
@@ -50,7 +54,7 @@ def category_name():
 
 
 @app.route('/admin/search', methods=['GET/POST'])
-def amin_search():
+def admin_search():
     return
 
 
@@ -74,17 +78,22 @@ def user():
     return
 
 
-@app.route('/user/register', methods=['POST'])
-def user_register():
+@app.route('/user/register', methods=['GET', 'POST'])
+def register():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
+        telephone = request.form['telephone']
+        telegram = request.form['telegram']
+        role = request.form['role']
 
-        db = LOGIN("dish.db")
-        registration_result = db.register_user(username, password)
+        db = LOGIN("dish.db", cur, con)  # Ініціалізація класу LOGIN
+
+        # Реєстрація користувача
+        registration_result = db.register_user(email, password, telephone, telegram, role)
 
         if registration_result is None:
-            return redirect(url_for('user_sign_in'))  # Виправлена назва функції
+            return redirect(url_for('user_sign_in'))  # Реєстрація успішна
         else:
             return registration_result  # Повертаємо повідомлення про помилку
 
@@ -148,7 +157,7 @@ def menu_cat_name():
 
 @app.route('/menu/<cat_name>/<dish>', methods=['GET'])
 def menu_cat_name_dish():
-    return
+    return redirect(url_for('menu_cat_name'))
 
 
 @app.route('/menu/<cat_name>/<dish>/review', methods=['POST'])
