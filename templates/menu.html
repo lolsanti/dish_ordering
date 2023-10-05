@@ -1,0 +1,80 @@
+<!--<form method="POST">-->
+<!--    <input type="text" name="Dish_name" placeholder="Dish_name">-->
+<!--    <input type="text" name="Price" placeholder="Price">-->
+<!--    <input type="text" name="Description" placeholder="Description">-->
+<!--    <input type="text" name="Photo" placeholder="Photo">-->
+<!--    <input type="text" name="Category" placeholder="Category">-->
+<!--    <input type="text" name="Ccal" placeholder="Ccal">-->
+<!--    <input type="text" name="Protein" placeholder="Protein">-->
+<!--    <input type="text" name="Fat" placeholder="Fat">-->
+<!--    <input type="text" name="Carb" placeholder="Carb">-->
+<!--    <input type="submit">-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Меню</title>
+</head>
+<body>
+    <h1>Меню ресторану</h1>
+
+    <!-- Форма для додавання нової страви -->
+    <form method="POST">
+       <h2>Додати нову страву</h2>
+       <label for="Dish_name">Назва страви:</label><br>
+       <input type="text" name="Dish_name" placeholder="Dish_name"><br>
+       <label for="Price">Ціна:</label><br>
+       <input type="text" name="Price" placeholder="Price"><br>
+       <label for="Description">Опис:</label><br>
+       <input type="text" name="Description" placeholder="Description"><br>
+       <label for="Photo">Фото:</label><br>
+       <input type="text" name="Photo" placeholder="Photo"><br>
+       <label for="Category">Категорія:</label><br>
+       <input type="text" name="Category" placeholder="Category"><br>
+       <label for="Ccal">Калорії:</label><br>
+       <input type="text" name="Ccal" placeholder="Ccal"><br>
+       <label for="Protein">Білки:</label><br>
+       <input type="text" name="Protein" placeholder="Protein"><br>
+       <label for="Fat">Жири:</label><br>
+       <input type="text" name="Fat" placeholder="Fat"><br>
+       <label for="Carb">Вуглеводи:</label><br>
+       <input type="text" name="Carb" placeholder="Carb"><br>
+       <input type="submit" value="Додати"><br>
+    </form>
+
+    <!-- Таблиця для відображення списку страв -->
+    <h2>Список страв</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Назва страви</th>
+                <th>Ціна</th>
+                <th>Опис</th>
+                <th>Фото</th>
+                <th>Категорія</th>
+                <th>Калорії</th>
+                <th>Білки</th>
+                <th>Жири</th>
+                <th>Вуглеводи</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dish in dishes %}
+            <tr>
+                <td>{{ dish.ID }}</td>
+                <td>{{ dish.Dish_name }}</td>
+                <td>{{ dish.Price }}</td>
+                <td>{{ dish.Description }}</td>
+                <td>{{ dish.Photo }}</td>
+                <td>{{ dish.Category }}</td>
+                <td>{{ dish.Ccal }}</td>
+                <td>{{ dish.Protein }}</td>
+                <td>{{ dish.Fat }}</td>
+                <td>{{ dish.Carb }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
